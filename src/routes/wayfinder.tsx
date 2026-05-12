@@ -64,9 +64,9 @@ function WayfinderPage() {
   return (
     <div className="grid gap-5">
       <header>
-        <h1 className="font-display text-3xl font-semibold tracking-tight">Wayfinder</h1>
-        <p className="text-sm text-[var(--color-fg-muted)] mt-1">
-          Step-by-step directions to desk {desk.number} on {floor.label}.
+        <h1 className="font-display text-2xl font-semibold tracking-tight">Wayfinder</h1>
+        <p className="text-xs text-[var(--color-fg-muted)] mt-0.5">
+          Directions to desk {desk.number} · {floor.label}.
         </p>
       </header>
 

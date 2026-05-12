@@ -17,9 +17,9 @@ function RootShell() {
 
   return (
     <TooltipProvider delayDuration={150}>
-      <div className="min-h-screen flex flex-col">
+      <div className="app-frame flex flex-col">
         <TopBar />
-        <main className="flex-1 mx-auto w-full max-w-6xl px-4 pb-28 md:pb-32 pt-6">
+        <main className="flex-1 w-full px-4 pb-32 pt-4">
           <Outlet />
         </main>
         <BottomNav />

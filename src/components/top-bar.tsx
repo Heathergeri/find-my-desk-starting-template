@@ -23,30 +23,26 @@ export function TopBar() {
   const dark = state.preferences.theme === "dark";
 
   return (
-    <header className="sticky top-0 z-20 w-full border-b border-[var(--color-border)] bg-[var(--color-canvas)]/85 backdrop-blur-md">
-      <div className="mx-auto flex h-14 max-w-6xl items-center justify-between px-4">
+    <header className="sticky top-0 z-20 w-full">
+      <div className="mx-3 mt-3 rounded-[var(--radius-pill)] glass-strong glass-sheen flex h-12 items-center justify-between pl-4 pr-1.5">
         <Link
           to="/"
-          className="flex items-center gap-2 font-display text-lg font-semibold tracking-tight focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-ring)] rounded-[var(--radius-sm)]"
+          className="flex items-center gap-2 font-display text-base font-semibold tracking-tight focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-ring)] rounded-[var(--radius-pill)]"
         >
           <span
-            className="inline-block h-6 w-6 rounded-[var(--radius-sm)]"
+            className="inline-block h-5 w-5 rounded-[var(--radius-sm)] shadow-[inset_0_0_0_1px_oklch(1_0_0_/_0.4)]"
             style={{ background: "var(--color-primary)" }}
             aria-hidden
           />
-          Spaces<span className="text-[var(--color-primary)]">@LBG</span>
+          <span className="leading-none">
+            Spaces<span className="text-[var(--color-primary)]">@LBG</span>
+          </span>
         </Link>
 
         <DropdownMenu>
-          <DropdownMenuTrigger className="flex items-center gap-2 rounded-[var(--radius-pill)] py-1 pl-1 pr-2.5 hover:bg-[var(--color-surface-2)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-ring)]">
-            <Avatar initials={user.initials} name={user.fullName} size={32} />
-            <span className="hidden sm:flex flex-col items-start leading-tight">
-              <span className="text-sm font-medium">{user.fullName.split(" ")[0]}</span>
-              <span className="text-xs text-[var(--color-fg-muted)]">
-                {user.role} · {user.location}
-              </span>
-            </span>
-            <ChevronDown className="h-4 w-4 text-[var(--color-fg-muted)]" aria-hidden />
+          <DropdownMenuTrigger className="flex items-center gap-1.5 rounded-[var(--radius-pill)] py-1 pl-1 pr-2 hover:bg-[var(--color-surface-2)]/40 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-ring)]">
+            <Avatar initials={user.initials} name={user.fullName} size={28} />
+            <ChevronDown className="h-3.5 w-3.5 text-[var(--color-fg-muted)]" aria-hidden />
           </DropdownMenuTrigger>
           <DropdownMenuContent>
             <DropdownMenuLabel>

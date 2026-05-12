@@ -11,7 +11,7 @@ export const TabsList = React.forwardRef<
   <TabsPrimitive.List
     ref={ref}
     className={cn(
-      "inline-flex h-10 items-center justify-center rounded-[var(--radius-md)] bg-[var(--color-surface-2)] border border-[var(--color-border)] p-1 text-[var(--color-fg-muted)]",
+      "inline-flex w-full items-center justify-stretch rounded-[var(--radius-pill)] glass glass-sheen p-1 text-[var(--color-fg-muted)] gap-1",
       className,
     )}
     {...props}
@@ -26,7 +26,7 @@ export const TabsTrigger = React.forwardRef<
   <TabsPrimitive.Trigger
     ref={ref}
     className={cn(
-      "inline-flex items-center justify-center whitespace-nowrap rounded-[var(--radius-sm)] px-4 py-1.5 text-sm font-medium transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-ring)] disabled:pointer-events-none disabled:opacity-50 data-[state=active]:bg-[var(--color-surface)] data-[state=active]:text-[var(--color-fg)] data-[state=active]:shadow-[var(--shadow-card)]",
+      "flex-1 inline-flex items-center justify-center whitespace-nowrap rounded-[var(--radius-pill)] px-3 py-2 text-sm font-medium transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-ring)] disabled:pointer-events-none disabled:opacity-50 data-[state=active]:bg-[var(--color-primary)] data-[state=active]:text-[var(--color-primary-fg)] data-[state=active]:shadow-[0_4px_12px_-4px_oklch(0.42_0.13_150_/_0.5)]",
       className,
     )}
     {...props}

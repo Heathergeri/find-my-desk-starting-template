@@ -40,13 +40,13 @@ function StatsPage() {
   return (
     <div className="grid gap-6">
       <header>
-        <h1 className="font-display text-3xl font-semibold tracking-tight">Team stats</h1>
-        <p className="text-sm text-[var(--color-fg-muted)] mt-1">
-          Quick snapshot of where {user.fullName.split(" ")[0]}'s team is working from.
+        <h1 className="font-display text-2xl font-semibold tracking-tight">Team stats</h1>
+        <p className="text-xs text-[var(--color-fg-muted)] mt-0.5">
+          Where {user.fullName.split(" ")[0]}'s team is working from.
         </p>
       </header>
 
-      <div className="grid gap-4 sm:grid-cols-3">
+      <div className="grid grid-cols-3 gap-2">
         <Stat
           icon={<Users className="h-5 w-5" />}
           label="Direct reports"
@@ -107,13 +107,13 @@ function StatsPage() {
 function Stat({ icon, label, value }: { icon: React.ReactNode; label: string; value: string }) {
   return (
     <Card>
-      <CardContent className="flex items-center gap-4 py-5">
-        <div className="inline-flex h-10 w-10 items-center justify-center rounded-[var(--radius-md)] bg-[var(--color-primary-soft)] text-[var(--color-primary-soft-fg)]">
+      <CardContent className="flex flex-col gap-1 py-3 px-3">
+        <div className="inline-flex h-7 w-7 items-center justify-center rounded-[var(--radius-md)] bg-[var(--color-primary-soft)] text-[var(--color-primary-soft-fg)] border border-[oklch(0.42_0.13_150_/_0.2)]">
           {icon}
         </div>
-        <div>
-          <div className="text-xs uppercase tracking-wider text-[var(--color-fg-muted)]">{label}</div>
-          <div className="font-display text-2xl font-semibold">{value}</div>
+        <div className="font-display text-lg font-semibold leading-tight">{value}</div>
+        <div className="text-[10px] uppercase tracking-wider text-[var(--color-fg-muted)] leading-tight">
+          {label}
         </div>
       </CardContent>
     </Card>

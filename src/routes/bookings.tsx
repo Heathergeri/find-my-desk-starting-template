@@ -1,19 +1,20 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { toast } from "sonner";
-import { CalendarCheck, MapPin, X, Plus } from "lucide-react";
+import { CalendarCheck, MapPin, X, Plus, LogIn, LogOut, Mail } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { useAppStore, todayISO } from "@/lib/app-store";
 import { DESK_BY_ID, FLOORS } from "@/data/desks";
 import { AMENITY_BY_ID } from "@/lib/amenities";
+import { renderCancellation, sendMockEmail } from "@/lib/mock-email";
 
 export const Route = createFileRoute("/bookings")({
   component: BookingsPage,
 });
 
 function BookingsPage() {
-  const { bookingsForUser, cancelBooking, checkIn } = useAppStore();
+  const { user, bookingsForUser, cancelBooking, checkIn, checkOut } = useAppStore();
   const today = todayISO();
   const all = [...bookingsForUser()].sort((a, b) => a.date.localeCompare(b.date));
   const upcoming = all.filter((b) => b.date >= today);
@@ -23,15 +24,15 @@ function BookingsPage() {
     <div className="grid gap-6">
       <header className="flex items-center justify-between">
         <div>
-          <h1 className="font-display text-3xl font-semibold tracking-tight">My bookings</h1>
-          <p className="text-sm text-[var(--color-fg-muted)] mt-1">
+          <h1 className="font-display text-2xl font-semibold tracking-tight">My bookings</h1>
+          <p className="text-xs text-[var(--color-fg-muted)] mt-0.5">
             {upcoming.length} upcoming · {past.length} past
           </p>
         </div>
-        <Button asChild>
+        <Button asChild size="sm">
           <Link to="/book">
             <Plus className="h-4 w-4" aria-hidden />
-            New booking
+            New
           </Link>
         </Button>
       </header>
@@ -102,7 +103,21 @@ function BookingsPage() {
                               toast.success("Checked in");
                             }}
                           >
+                            <LogIn className="h-4 w-4" aria-hidden />
                             Check in
+                          </Button>
+                        )}
+                        {isToday && b.checkedInAt && !b.checkedOutAt && (
+                          <Button
+                            size="sm"
+                            variant="primary"
+                            onClick={() => {
+                              checkOut(b.id);
+                              toast.success("Checked out");
+                            }}
+                          >
+                            <LogOut className="h-4 w-4" aria-hidden />
+                            Check out
                           </Button>
                         )}
                         {isToday && (
@@ -118,7 +133,27 @@ function BookingsPage() {
                           size="sm"
                           onClick={() => {
                             cancelBooking(b.id);
-                            toast("Booking cancelled");
+                            if (desk && floor) {
+                              sendMockEmail(
+                                renderCancellation({
+                                  to: user.email,
+                                  toName: user.fullName,
+                                  deskNumber: desk.number,
+                                  date: new Date(b.date).toLocaleDateString("en-GB", {
+                                    weekday: "short",
+                                    day: "numeric",
+                                    month: "short",
+                                  }),
+                                  location: b.location ?? user.location,
+                                  floor: floor.label,
+                                  reason: "User cancelled",
+                                }),
+                              );
+                            }
+                            toast("Booking cancelled", {
+                              description: "Cancellation email sent.",
+                              icon: <Mail className="h-4 w-4" />,
+                            });
                           }}
                         >
                           <X className="h-4 w-4" aria-hidden />

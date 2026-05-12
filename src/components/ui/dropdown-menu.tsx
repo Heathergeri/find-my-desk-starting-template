@@ -27,7 +27,7 @@ export const DropdownMenuContent = React.forwardRef<
       sideOffset={sideOffset}
       align={align}
       className={cn(
-        "z-50 min-w-56 overflow-hidden rounded-[var(--radius-md)] border border-[var(--color-border)] bg-[var(--color-surface)] p-1 text-[var(--color-fg)] shadow-[var(--shadow-pop)]",
+        "z-50 min-w-56 overflow-hidden rounded-[var(--radius-md)] glass-pop glass-sheen p-1 text-[var(--color-fg)]",
         className,
       )}
       {...props}
@@ -43,7 +43,7 @@ export const DropdownMenuItem = React.forwardRef<
   <DropdownMenuPrimitive.Item
     ref={ref}
     className={cn(
-      "flex cursor-pointer select-none items-center gap-2 rounded-[var(--radius-sm)] px-3 py-2 text-sm outline-none transition-colors focus:bg-[var(--color-surface-2)] data-[disabled]:opacity-50",
+      "flex cursor-pointer select-none items-center gap-2 rounded-[var(--radius-sm)] px-3 py-2 text-sm outline-none transition-colors focus:bg-[var(--color-surface)]/55 data-[disabled]:opacity-50",
       className,
     )}
     {...props}

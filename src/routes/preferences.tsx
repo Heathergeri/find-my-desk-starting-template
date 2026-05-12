@@ -1,5 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { Moon, Sun, Bell, Mail, Calendar, MapPin } from "lucide-react";
+import { Moon, Sun, Bell, Mail, Calendar, MapPin, QrCode, Inbox } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Switch } from "@/components/ui/switch";
 import { useAppStore } from "@/lib/app-store";
@@ -7,6 +7,8 @@ import { AMENITIES, type AmenityId } from "@/lib/amenities";
 import { cn } from "@/lib/cn";
 import { Avatar } from "@/components/ui/avatar";
 import { APP_USERS } from "@/data/app";
+import { QrCard } from "@/components/qr-card";
+import { EmailInbox } from "@/components/email-inbox";
 
 export const Route = createFileRoute("/preferences")({
   component: PreferencesPage,
@@ -19,11 +21,26 @@ function PreferencesPage() {
   return (
     <div className="grid gap-6">
       <header>
-        <h1 className="font-display text-3xl font-semibold tracking-tight">Preferences</h1>
-        <p className="text-sm text-[var(--color-fg-muted)] mt-1">
-          Tweak the experience to suit you. Your desk needs apply to every booking automatically.
+        <h1 className="font-display text-2xl font-semibold tracking-tight">Preferences</h1>
+        <p className="text-xs text-[var(--color-fg-muted)] mt-0.5">
+          Tweak the app. Your desk needs apply to every booking automatically.
         </p>
       </header>
+
+      <Card>
+        <CardHeader>
+          <CardTitle className="flex items-center gap-2">
+            <QrCode className="h-4 w-4 text-[var(--color-primary)]" aria-hidden />
+            Open on your phone
+          </CardTitle>
+          <CardDescription>
+            Scan from your phone camera to open Spaces@LBG on the go.
+          </CardDescription>
+        </CardHeader>
+        <CardContent>
+          <QrCard />
+        </CardContent>
+      </Card>
 
       <Card>
         <CardHeader>
@@ -184,6 +201,21 @@ function PreferencesPage() {
         </CardContent>
       </Card>
 
+      <Card>
+        <CardHeader>
+          <CardTitle className="flex items-center gap-2">
+            <Inbox className="h-4 w-4 text-[var(--color-primary)]" aria-hidden />
+            Booking emails
+          </CardTitle>
+          <CardDescription>
+            Confirmation and cancellation receipts. Mock outbox for the prototype.
+          </CardDescription>
+        </CardHeader>
+        <CardContent>
+          <EmailInbox />
+        </CardContent>
+      </Card>
+
       {/* Demo user switcher — would not exist in production. */}
       <Card>
         <CardHeader>
@@ -193,7 +225,7 @@ function PreferencesPage() {
           </CardDescription>
         </CardHeader>
         <CardContent>
-          <ul className="grid gap-1 sm:grid-cols-2 max-h-64 overflow-y-auto">
+          <ul className="grid gap-1 max-h-64 overflow-y-auto">
             {APP_USERS.map((u) => (
               <li key={u.id}>
                 <button

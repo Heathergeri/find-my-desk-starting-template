@@ -192,3 +192,40 @@ export function desksMatchingAmenities(
   if (amenities.length === 0) return desks;
   return desks.filter((d) => amenities.every((a) => d.amenities.includes(a)));
 }
+
+// Buildings and their floor sets per Lloyds location. We reuse the two
+// floorplan PNGs across cities, varying which floors are shown so the
+// location selector is meaningful in the UI.
+export type LocationId = "London" | "Leeds" | "Edinburgh";
+
+export type Building = {
+  id: string;
+  city: LocationId;
+  name: string;
+  address: string;
+  floorIds: FloorId[];
+};
+
+export const BUILDINGS_BY_LOCATION: Record<LocationId, Building> = {
+  London: {
+    id: "london-gresham",
+    city: "London",
+    name: "Gresham St HQ",
+    address: "25 Gresham St, London EC2V 7HN",
+    floorIds: ["ground", "first"],
+  },
+  Leeds: {
+    id: "leeds-blackbull",
+    city: "Leeds",
+    name: "Black Bull St",
+    address: "Black Bull St, Leeds LS10 1HG",
+    floorIds: ["ground"],
+  },
+  Edinburgh: {
+    id: "edinburgh-fountainbridge",
+    city: "Edinburgh",
+    name: "Fountainbridge",
+    address: "The Mound, Edinburgh EH1 1YZ",
+    floorIds: ["first"],
+  },
+};

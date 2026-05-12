@@ -16,14 +16,17 @@ export type BookingStatus = "confirmed" | "requested" | "cancelled";
 export type Booking = {
   id: string;
   userId: string;
+  bookedByUserId?: string;
   type: BookingType;
   deskId?: string;
   roomId?: string;
   date: string; // YYYY-MM-DD
   start: string; // HH:mm
   end: string; // HH:mm
+  location?: string;
   status: BookingStatus;
   checkedInAt?: string; // ISO timestamp
+  checkedOutAt?: string; // ISO timestamp
   notes?: string;
 };
 
@@ -127,9 +130,12 @@ type Ctx = {
   state: AppState;
   user: AppUser;
   setCurrentUser: (id: string) => void;
-  addBooking: (b: Omit<Booking, "id" | "userId" | "status"> & { status?: BookingStatus }) => Booking;
+  addBooking: (
+    b: Omit<Booking, "id" | "status"> & { status?: BookingStatus; userId?: string },
+  ) => Booking;
   cancelBooking: (id: string) => void;
   checkIn: (id: string) => void;
+  checkOut: (id: string) => void;
   updatePreferences: (p: Partial<Preferences>) => void;
   setOnboarded: (v: boolean) => void;
   bookingsForUser: (userId?: string) => Booking[];
@@ -168,7 +174,8 @@ export function AppStoreProvider({ children }: { children: React.ReactNode }) {
     (b) => {
       const booking: Booking = {
         id: crypto.randomUUID(),
-        userId: state.currentUserId,
+        userId: b.userId ?? state.currentUserId,
+        bookedByUserId: state.currentUserId,
         status: b.status ?? "confirmed",
         ...b,
       };
@@ -192,7 +199,17 @@ export function AppStoreProvider({ children }: { children: React.ReactNode }) {
     setState((s) => ({
       ...s,
       bookings: s.bookings.map((b) =>
-        b.id === id ? { ...b, checkedInAt: now } : b,
+        b.id === id ? { ...b, checkedInAt: now, checkedOutAt: undefined } : b,
+      ),
+    }));
+  }, []);
+
+  const checkOut = useCallback((id: string) => {
+    const now = new Date().toISOString();
+    setState((s) => ({
+      ...s,
+      bookings: s.bookings.map((b) =>
+        b.id === id ? { ...b, checkedOutAt: now } : b,
       ),
     }));
   }, []);
@@ -237,6 +254,7 @@ export function AppStoreProvider({ children }: { children: React.ReactNode }) {
       addBooking,
       cancelBooking,
       checkIn,
+      checkOut,
       updatePreferences,
       setOnboarded,
       bookingsForUser,
@@ -250,6 +268,7 @@ export function AppStoreProvider({ children }: { children: React.ReactNode }) {
       addBooking,
       cancelBooking,
       checkIn,
+      checkOut,
       updatePreferences,
       setOnboarded,
       bookingsForUser,

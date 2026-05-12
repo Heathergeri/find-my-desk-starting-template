@@ -28,7 +28,7 @@ export function ReminderPanel({ booking, now, onCheckIn }: Props) {
 
   if (checkedIn && !wrapUpSoon) {
     return (
-      <div className="flex items-center gap-3 rounded-[var(--radius-md)] border border-[var(--color-border)] bg-[var(--color-surface-2)] px-4 py-3 text-sm">
+      <div className="flex items-center gap-3 rounded-[var(--radius-lg)] glass glass-sheen px-4 py-3 text-sm">
         <CheckCircle2 className="h-4 w-4 text-[var(--color-success)]" aria-hidden />
         <span>You're checked in. Have a productive day.</span>
       </div>
@@ -37,15 +37,16 @@ export function ReminderPanel({ booking, now, onCheckIn }: Props) {
 
   if (wrapUpSoon) {
     return (
-      <div className="flex items-center justify-between gap-3 rounded-[var(--radius-md)] border border-[oklch(0.8_0.14_75)] bg-[oklch(0.97_0.05_75)] dark:bg-[oklch(0.32_0.1_75)] dark:border-[oklch(0.5_0.14_75)] px-4 py-3 text-sm">
-        <div className="flex items-center gap-3">
-          <Clock className="h-4 w-4" aria-hidden />
-          <span>
-            Your morning slot wraps up by <strong>{booking.end}</strong> — fancy a change of desk?
-          </span>
+      <div className="flex items-center gap-3 rounded-[var(--radius-lg)] glass glass-sheen px-4 py-3 text-sm border-[oklch(0.74_0.16_75_/_0.45)]">
+        <span className="inline-flex h-7 w-7 items-center justify-center rounded-full bg-[oklch(0.96_0.08_75_/_0.7)] text-[oklch(0.42_0.14_75)]">
+          <Clock className="h-3.5 w-3.5" aria-hidden />
+        </span>
+        <div className="flex-1">
+          <div className="font-medium leading-tight">Wrap-up soon</div>
+          <div className="text-xs text-[var(--color-fg-muted)]">Slot ends at {booking.end}.</div>
         </div>
         <Button variant="outline" size="sm">
-          Find a new desk
+          New desk
         </Button>
       </div>
     );
@@ -58,22 +59,22 @@ export function ReminderPanel({ booking, now, onCheckIn }: Props) {
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.32, ease: [0.22, 1, 0.36, 1] }}
         role="alert"
-        className="relative flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between rounded-[var(--radius-lg)] border-2 border-[var(--color-danger)] bg-[var(--color-danger-soft)] dark:bg-[oklch(0.28_0.12_27)] dark:border-[oklch(0.6_0.2_27)] px-4 py-3.5"
+        className="relative flex flex-col gap-3 rounded-[var(--radius-lg)] glass-pop glass-sheen border-[oklch(0.55_0.21_27_/_0.45)] px-4 py-3.5 shadow-[0_18px_44px_-14px_oklch(0.55_0.21_27_/_0.35)]"
       >
         <div className="flex items-start gap-3">
           <span className={cn("pulse-ring inline-flex items-center justify-center rounded-full bg-[var(--color-danger)] text-white h-8 w-8 shrink-0")}>
             <AlertCircle className="h-5 w-5" aria-hidden />
           </span>
-          <div>
-            <div className="font-semibold text-[var(--color-danger)] dark:text-[oklch(0.92_0.1_27)]">
+          <div className="flex-1 min-w-0">
+            <div className="font-semibold text-[var(--color-danger)]">
               Desk released — please rebook
             </div>
-            <div className="text-sm text-[var(--color-fg-muted)] mt-0.5">
-              The 10am rule kicked in and your desk is back in the pool. Pick a new one to keep your day.
+            <div className="text-xs text-[var(--color-fg-muted)] mt-0.5">
+              The 10am rule kicked in. Pick a new desk to keep your day.
             </div>
           </div>
         </div>
-        <Button variant="danger" size="md">
+        <Button variant="danger" size="md" className="w-full">
           Rebook now
         </Button>
       </motion.div>
@@ -87,28 +88,26 @@ export function ReminderPanel({ booking, now, onCheckIn }: Props) {
       initial={{ opacity: 0, y: -4 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.32, ease: [0.22, 1, 0.36, 1] }}
-      className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between rounded-[var(--radius-lg)] border border-[var(--color-border-strong)] bg-[var(--color-surface)] px-4 py-3.5 shadow-[var(--shadow-card)]"
+      className="flex items-center gap-3 rounded-[var(--radius-lg)] glass glass-sheen px-4 py-3"
     >
-      <div className="flex items-start gap-3">
-        <span className="inline-flex items-center justify-center rounded-full bg-[var(--color-primary-soft)] text-[var(--color-primary-soft-fg)] h-8 w-8 shrink-0">
-          <Clock className="h-4 w-4" aria-hidden />
-        </span>
-        <div>
-          <div className="font-semibold">Check in by 10:00</div>
-          <div className="text-sm text-[var(--color-fg-muted)] mt-0.5 flex items-center gap-2">
-            <span>
-              {minutesUntil10 > 0
-                ? `${minutesUntil10} min remaining`
-                : "Last chance — desk releases at 10am"}
-            </span>
-            {minutesUntil10 <= 30 && minutesUntil10 > 0 && (
-              <Badge variant="warning">Closing soon</Badge>
-            )}
-          </div>
+      <span className="inline-flex items-center justify-center rounded-full bg-[var(--color-primary-soft)] text-[var(--color-primary-soft-fg)] h-9 w-9 shrink-0 border border-[oklch(0.42_0.13_150_/_0.2)]">
+        <Clock className="h-4 w-4" aria-hidden />
+      </span>
+      <div className="flex-1 min-w-0">
+        <div className="font-medium text-sm leading-tight">Check in by 10:00</div>
+        <div className="text-xs text-[var(--color-fg-muted)] flex items-center gap-1.5 mt-0.5">
+          <span>
+            {minutesUntil10 > 0
+              ? `${minutesUntil10} min remaining`
+              : "Last chance"}
+          </span>
+          {minutesUntil10 <= 30 && minutesUntil10 > 0 && (
+            <Badge variant="warning" className="text-[9px] px-1.5 py-0">Closing soon</Badge>
+          )}
         </div>
       </div>
-      <Button variant="primary" size="md" onClick={onCheckIn}>
-        Check in now
+      <Button variant="primary" size="sm" onClick={onCheckIn}>
+        Check in
       </Button>
     </motion.div>
   );

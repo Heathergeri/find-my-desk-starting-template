@@ -22,21 +22,21 @@ function TeamPage() {
   return (
     <div className="grid gap-6">
       <header>
-        <h1 className="font-display text-3xl font-semibold tracking-tight">My team</h1>
-        <p className="text-sm text-[var(--color-fg-muted)] mt-1">
-          {team.length} teammates in {user.team} · {user.location}
+        <h1 className="font-display text-2xl font-semibold tracking-tight">My team</h1>
+        <p className="text-xs text-[var(--color-fg-muted)] mt-0.5">
+          {team.length} teammates · {user.team}
         </p>
       </header>
 
       <Card>
-        <CardHeader className="flex items-center justify-between">
-          <CardTitle>Today's seating</CardTitle>
+        <CardHeader className="flex flex-row items-center justify-between pb-2">
+          <CardTitle className="text-base">Today's seating</CardTitle>
           <Button asChild variant="primary" size="sm">
             <Link to="/book">Sit with team</Link>
           </Button>
         </CardHeader>
         <CardContent>
-          <ul className="grid gap-2 sm:grid-cols-2">
+          <ul className="grid gap-2">
             {team.map((t) => {
               const b = byUser.get(t.id);
               const desk = b?.deskId ? DESK_BY_ID[b.deskId] : null;
