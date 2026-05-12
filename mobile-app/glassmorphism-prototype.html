@@ -476,6 +476,139 @@
   }
   .segmented[data-active="room"] .segmented__indicator { transform: translateX(100%); }
 
+  /* === calendar day picker === */
+  .day-row {
+    display: flex; gap: 8px;
+    overflow-x: auto;
+    padding: 4px 0 10px;
+    margin-bottom: 6px;
+    scrollbar-width: none;
+    cursor: grab;
+    -webkit-overflow-scrolling: touch;
+  }
+  .day-row::-webkit-scrollbar { display: none; }
+  .day-row.dragging { cursor: grabbing; user-select: none; }
+  .day {
+    flex-shrink: 0;
+    min-width: 52px;
+    padding: 9px 10px 10px;
+    border-radius: 14px;
+    background: var(--glass-bg-strong);
+    border: 1px solid var(--glass-border);
+    text-align: center;
+    cursor: pointer;
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    transition: transform 0.12s ease, background 0.16s ease, color 0.16s ease;
+    color: var(--fg);
+    box-shadow: inset 0 1px 0 rgba(255,255,255,0.45);
+  }
+  .day:hover { transform: translateY(-2px); }
+  .day__name {
+    font-size: 10px; font-weight: 600;
+    letter-spacing: 0.06em; text-transform: uppercase;
+    color: var(--fg-muted);
+  }
+  .day__num {
+    font-family: 'Fraunces', serif;
+    font-weight: 600; font-size: 19px;
+    line-height: 1; margin-top: 4px;
+    font-variant-numeric: tabular-nums;
+  }
+  .day__mon {
+    font-size: 9px;
+    color: var(--fg-muted);
+    margin-top: 3px;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+  }
+  .day--today { border-color: rgba(42,157,117,0.55); }
+  .day--active {
+    background: var(--brand);
+    color: white;
+    border-color: var(--brand);
+    box-shadow: 0 6px 16px rgba(0,106,78,0.32);
+  }
+  .day--active .day__name,
+  .day--active .day__mon { color: rgba(255,255,255,0.82); }
+  .day--active.day--today { box-shadow: 0 0 0 2px rgba(255,255,255,0.45), 0 6px 16px rgba(0,106,78,0.32); }
+
+  /* === time slot pills === */
+  .slot-row {
+    display: flex; gap: 6px;
+    overflow-x: auto;
+    padding: 4px 0 10px;
+    margin-bottom: 10px;
+    scrollbar-width: none;
+    cursor: grab;
+    -webkit-overflow-scrolling: touch;
+  }
+  .slot-row::-webkit-scrollbar { display: none; }
+  .slot-row.dragging { cursor: grabbing; user-select: none; }
+  .slot {
+    flex-shrink: 0;
+    padding: 7px 12px 8px;
+    border-radius: 12px;
+    background: var(--glass-bg);
+    border: 1px solid var(--glass-border);
+    color: var(--fg);
+    font-family: inherit; font-size: 13px; font-weight: 600;
+    cursor: pointer;
+    white-space: nowrap;
+    line-height: 1;
+    backdrop-filter: blur(8px);
+    transition: all 0.14s ease;
+    text-align: left;
+  }
+  .slot small {
+    display: block;
+    font-size: 10px; font-weight: 500;
+    opacity: 0.65; margin-top: 2px;
+  }
+  .slot--active {
+    background: var(--brand);
+    color: white;
+    border-color: var(--brand);
+    box-shadow: 0 4px 12px rgba(0,106,78,0.3);
+  }
+  .slot--active small { opacity: 0.85; }
+
+  .custom-time {
+    display: none;
+    gap: 10px; align-items: center;
+    padding: 12px;
+    margin-bottom: 12px;
+    background: var(--glass-bg);
+    border: 1px solid var(--glass-border);
+    border-radius: 14px;
+    backdrop-filter: blur(10px);
+  }
+  .custom-time.show { display: flex; }
+  .custom-time label {
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--fg-muted);
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+  }
+  .custom-time input[type="time"] {
+    border: none;
+    background: rgba(255,255,255,0.45);
+    color: var(--fg);
+    font-family: inherit;
+    font-weight: 600;
+    font-size: 14px;
+    padding: 7px 10px;
+    border-radius: 10px;
+    outline: none;
+    border: 1px solid var(--glass-border);
+  }
+  html[data-theme="dark"] .custom-time input[type="time"] {
+    background: rgba(255,255,255,0.12);
+    color: var(--fg);
+    color-scheme: dark;
+  }
+
   /* === booking-for row === */
   .booking-for {
     display: flex; align-items: center; gap: 12px;
@@ -713,7 +846,13 @@
     display: flex; gap: 8px; overflow-x: auto;
     padding: 4px 0 10px; scrollbar-width: none;
     margin-bottom: 6px;
+    cursor: grab;
+    scroll-behavior: smooth;
+    -webkit-overflow-scrolling: touch;
+    position: relative;
   }
+  .filter-row.dragging { cursor: grabbing; scroll-behavior: auto; user-select: none; }
+  .filter-row.dragging .chip { pointer-events: none; }
   .filter-row::-webkit-scrollbar { display: none; }
   .chip {
     flex-shrink: 0;
@@ -1208,9 +1347,9 @@
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#7a3d00" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
           </div>
           <div style="flex:1;">
-            <div style="font-weight:600;font-size:15px;margin-bottom:2px;">Your morning slot wraps up by 12:30</div>
-            <div style="font-size:13px;opacity:0.85;">Fancy a change of desk after lunch? Pick a new one in two taps.</div>
-            <div style="font-size:12px;font-weight:600;opacity:0.7;margin-top:6px;">58 min remaining</div>
+            <div style="font-weight:600;font-size:15px;margin-bottom:2px;">Your booking ends at 17:00</div>
+            <div style="font-size:13px;opacity:0.85;">Please ensure your desk is clean and tidy for the next user.</div>
+            <div id="remaining" style="font-size:12px;font-weight:600;opacity:0.7;margin-top:6px;">— remaining</div>
           </div>
         </div>
 
@@ -1251,7 +1390,7 @@
       <main class="view" id="view-book" hidden>
         <div style="padding: 0 4px 8px;">
           <h2 style="font-family: 'Fraunces', serif; font-weight: 600; font-size: 26px; letter-spacing: -0.02em;">Book a space</h2>
-          <p style="color: var(--fg-muted); font-size: 13px; margin-top: 2px;">Tuesday, 13 May · Ground floor</p>
+          <p style="color: var(--fg-muted); font-size: 13px; margin-top: 2px;" id="bookSubtitle">Tuesday, 13 May · Ground floor</p>
         </div>
 
         <!-- Desk / Room segmented control -->
@@ -1263,6 +1402,26 @@
 
         <!-- DESK MODE -->
         <div id="bookDesk">
+          <!-- Calendar day strip -->
+          <div class="day-row" id="dayRow"></div>
+
+          <!-- Time slot pills -->
+          <div class="slot-row" id="slotRow">
+            <button class="slot slot--active" data-slot="full"      onclick="selectSlot('full', this)">Full day<small>09:00 – 17:00</small></button>
+            <button class="slot"              data-slot="morning"   onclick="selectSlot('morning', this)">Morning<small>09:00 – 12:30</small></button>
+            <button class="slot"              data-slot="afternoon" onclick="selectSlot('afternoon', this)">Afternoon<small>12:30 – 17:00</small></button>
+            <button class="slot"              data-slot="evening"   onclick="selectSlot('evening', this)">Evening<small>17:00 – 21:00</small></button>
+            <button class="slot"              data-slot="custom"    onclick="selectSlot('custom', this)">Custom<small>Pick a time</small></button>
+          </div>
+
+          <!-- Custom time inputs (hidden unless Custom slot picked) -->
+          <div class="custom-time" id="customTime">
+            <label>From</label>
+            <input type="time" id="customStart" value="09:00" onchange="updateCustomLabel()" />
+            <label>To</label>
+            <input type="time" id="customEnd"   value="13:00" onchange="updateCustomLabel()" />
+          </div>
+
           <!-- Booking for: row -->
           <div class="booking-for" onclick="openColleaguesSheet()">
             <div class="booking-for__icon">
@@ -1279,10 +1438,19 @@
           <div class="filter-row">
             <div class="chip chip--active">My needs</div>
             <div class="chip">Low noise</div>
+            <div class="chip">Soft lighting</div>
+            <div class="chip">Warm area</div>
+            <div class="chip">Cool area</div>
+            <div class="chip">Step-free access</div>
+            <div class="chip">Window</div>
+            <div class="chip">Dark surface</div>
             <div class="chip">Dual monitor</div>
-            <div class="chip">Standing</div>
-            <div class="chip">Near window</div>
-            <div class="chip">Accessible</div>
+            <div class="chip">Triple monitor</div>
+            <div class="chip">Standing desk</div>
+            <div class="chip">Quiet pod</div>
+            <div class="chip">Ergonomic chair</div>
+            <div class="chip">Near kitchenette</div>
+            <div class="chip">Privacy screen</div>
           </div>
 
           <div class="glass floor-card">
@@ -1600,9 +1768,18 @@
           <div class="filter-row" style="margin: 0; padding: 0;">
             <div class="chip chip--active">Low noise</div>
             <div class="chip chip--active">Dual monitor</div>
-            <div class="chip chip--active">Near window</div>
-            <div class="chip">Standing</div>
-            <div class="chip">+ Add</div>
+            <div class="chip chip--active">Window</div>
+            <div class="chip chip--active">Ergonomic chair</div>
+            <div class="chip">Soft lighting</div>
+            <div class="chip">Warm area</div>
+            <div class="chip">Cool area</div>
+            <div class="chip">Step-free access</div>
+            <div class="chip">Dark surface</div>
+            <div class="chip">Triple monitor</div>
+            <div class="chip">Standing desk</div>
+            <div class="chip">Quiet pod</div>
+            <div class="chip">Near kitchenette</div>
+            <div class="chip">Privacy screen</div>
           </div>
         </div>
 
@@ -1684,47 +1861,158 @@
 
 <script>
   // ============ DATA ============
-  // Desk grid; each desk has number, x%/y%, status, amenities, optional occupant
+  // Static desk catalogue. Per-day occupancy is computed below.
   const DESKS = [
     // upper-left quad
-    { num: 'G-001', x: 10, y: 14, status: 'free',  amenities: ['Low noise', 'Dual monitor'] },
-    { num: 'G-002', x: 20, y: 14, status: 'free',  amenities: ['Dual monitor', 'Standing'] },
-    { num: 'G-003', x: 30, y: 14, status: 'taken', amenities: ['Low noise', 'Window'], occupant: { name: 'Sara Patel', title: 'Engineering Manager · Platform Eng', initials: 'SP', tone: 'linear-gradient(135deg,#ff9a8b,#ff6a88)' } },
-    { num: 'G-004', x: 40, y: 14, status: 'free',  amenities: ['Standing', 'Window'] },
-    { num: 'G-014', x: 12, y: 24, status: 'mine',  amenities: ['Low noise', 'Dual monitor', 'Window'] },
-    { num: 'G-015', x: 22, y: 24, status: 'free',  amenities: ['Dual monitor'] },
-    { num: 'G-012', x: 32, y: 24, status: 'team',  amenities: ['Low noise'], occupant: { name: 'Marcus Kim', title: 'Senior SWE · Platform Eng', initials: 'MK', tone: 'linear-gradient(135deg,#6fc7ff,#4d8eff)' } },
-    { num: 'G-016', x: 42, y: 24, status: 'free',  amenities: ['Accessible', 'Dual monitor'] },
-    { num: 'G-021', x: 14, y: 34, status: 'free',  amenities: ['Low noise', 'Window'] },
-    { num: 'G-022', x: 24, y: 34, status: 'taken', amenities: ['Dual monitor'], occupant: { name: 'Priya Shah', title: 'Risk Analyst · Credit Risk', initials: 'PS', tone: 'linear-gradient(135deg,#c4a8ff,#7d6dff)' } },
-    { num: 'G-023', x: 34, y: 34, status: 'free',  amenities: ['Standing'] },
-    { num: 'G-024', x: 44, y: 34, status: 'team',  amenities: ['Dual monitor', 'Window'], occupant: { name: 'Jordan O\'Hara', title: 'SWE · Platform Eng', initials: 'JO', tone: 'linear-gradient(135deg,#c4a8ff,#7d6dff)' } },
+    { num: 'G-001', x: 10, y: 14, amenities: ['Low noise', 'Dual monitor'] },
+    { num: 'G-002', x: 20, y: 14, amenities: ['Soft lighting', 'Standing desk'] },
+    { num: 'G-003', x: 30, y: 14, amenities: ['Warm area', 'Window'] },
+    { num: 'G-004', x: 40, y: 14, amenities: ['Cool area', 'Near kitchenette'] },
+    { num: 'G-014', x: 12, y: 24, amenities: ['Low noise', 'Triple monitor', 'Window'] },
+    { num: 'G-015', x: 22, y: 24, amenities: ['Ergonomic chair'] },
+    { num: 'G-012', x: 32, y: 24, amenities: ['Dark surface', 'Quiet pod'] },
+    { num: 'G-016', x: 42, y: 24, amenities: ['Step-free access', 'Dual monitor'] },
+    { num: 'G-021', x: 14, y: 34, amenities: ['Low noise', 'Window'] },
+    { num: 'G-022', x: 24, y: 34, amenities: ['Privacy screen', 'Dual monitor'] },
+    { num: 'G-023', x: 34, y: 34, amenities: ['Standing desk'] },
+    { num: 'G-024', x: 44, y: 34, amenities: ['Triple monitor', 'Window'] },
     // upper-right
-    { num: 'G-031', x: 58, y: 14, status: 'free',  amenities: ['Low noise', 'Window'] },
-    { num: 'G-032', x: 70, y: 14, status: 'free',  amenities: ['Standing'] },
-    { num: 'G-033', x: 82, y: 14, status: 'taken', amenities: ['Dual monitor'], occupant: { name: 'Hassan Ali', title: 'Product Manager · Mortgages', initials: 'HA', tone: 'linear-gradient(135deg,#7be8b9,#2a9d75)' } },
-    { num: 'G-034', x: 58, y: 26, status: 'free',  amenities: ['Accessible'] },
-    { num: 'G-035', x: 70, y: 26, status: 'free',  amenities: ['Low noise'] },
-    { num: 'G-036', x: 82, y: 26, status: 'free',  amenities: ['Window'] },
-    { num: 'G-037', x: 58, y: 38, status: 'team',  amenities: ['Low noise', 'Dual monitor'], occupant: { name: 'Rachel Hughes', title: 'SWE · Platform Eng', initials: 'RH', tone: 'linear-gradient(135deg,#7be8b9,#2a9d75)' } },
-    { num: 'G-038', x: 70, y: 38, status: 'free',  amenities: ['Standing', 'Window'] },
-    { num: 'G-039', x: 82, y: 38, status: 'free',  amenities: ['Dual monitor'] },
+    { num: 'G-031', x: 58, y: 14, amenities: ['Low noise', 'Window'] },
+    { num: 'G-032', x: 70, y: 14, amenities: ['Standing desk'] },
+    { num: 'G-033', x: 82, y: 14, amenities: ['Soft lighting', 'Triple monitor'] },
+    { num: 'G-034', x: 58, y: 26, amenities: ['Step-free access', 'Ergonomic chair'] },
+    { num: 'G-035', x: 70, y: 26, amenities: ['Quiet pod'] },
+    { num: 'G-036', x: 82, y: 26, amenities: ['Window', 'Soft lighting'] },
+    { num: 'G-037', x: 58, y: 38, amenities: ['Low noise', 'Dual monitor'] },
+    { num: 'G-038', x: 70, y: 38, amenities: ['Standing desk', 'Window'] },
+    { num: 'G-039', x: 82, y: 38, amenities: ['Dark surface', 'Dual monitor'] },
     // lower-left
-    { num: 'G-051', x: 14, y: 60, status: 'free',  amenities: ['Low noise', 'Dual monitor'] },
-    { num: 'G-052', x: 24, y: 60, status: 'taken', amenities: ['Window'], occupant: { name: 'Devon Ng', title: 'SWE · Platform Eng', initials: 'DN', tone: 'linear-gradient(135deg,#ffd57a,#ff9a3c)' } },
-    { num: 'G-053', x: 34, y: 60, status: 'free',  amenities: ['Standing'] },
-    { num: 'G-054', x: 44, y: 60, status: 'free',  amenities: ['Accessible', 'Window'] },
-    { num: 'G-061', x: 16, y: 72, status: 'free',  amenities: ['Dual monitor'] },
-    { num: 'G-062', x: 28, y: 72, status: 'free',  amenities: ['Low noise'] },
-    { num: 'G-063', x: 40, y: 72, status: 'free',  amenities: ['Window'] },
+    { num: 'G-051', x: 14, y: 60, amenities: ['Cool area', 'Dual monitor'] },
+    { num: 'G-052', x: 24, y: 60, amenities: ['Warm area', 'Window'] },
+    { num: 'G-053', x: 34, y: 60, amenities: ['Standing desk', 'Near kitchenette'] },
+    { num: 'G-054', x: 44, y: 60, amenities: ['Step-free access', 'Window'] },
+    { num: 'G-061', x: 16, y: 72, amenities: ['Dual monitor', 'Privacy screen'] },
+    { num: 'G-062', x: 28, y: 72, amenities: ['Low noise', 'Quiet pod'] },
+    { num: 'G-063', x: 40, y: 72, amenities: ['Window', 'Ergonomic chair'] },
     // lower-right
-    { num: 'G-071', x: 58, y: 60, status: 'free',  amenities: ['Standing'] },
-    { num: 'G-072', x: 70, y: 60, status: 'taken', amenities: ['Dual monitor'], occupant: { name: 'Aisha Khan', title: 'Senior Designer · Digital', initials: 'AK', tone: 'linear-gradient(135deg,#ff9a8b,#ff6a88)' } },
-    { num: 'G-073', x: 82, y: 60, status: 'free',  amenities: ['Window'] },
-    { num: 'G-074', x: 58, y: 72, status: 'free',  amenities: ['Low noise', 'Dual monitor'] },
-    { num: 'G-075', x: 70, y: 72, status: 'free',  amenities: ['Standing', 'Accessible'] },
-    { num: 'G-076', x: 82, y: 72, status: 'free',  amenities: ['Window', 'Dual monitor'] },
+    { num: 'G-071', x: 58, y: 60, amenities: ['Standing desk', 'Soft lighting'] },
+    { num: 'G-072', x: 70, y: 60, amenities: ['Triple monitor', 'Dark surface'] },
+    { num: 'G-073', x: 82, y: 60, amenities: ['Window', 'Near kitchenette'] },
+    { num: 'G-074', x: 58, y: 72, amenities: ['Low noise', 'Dual monitor'] },
+    { num: 'G-075', x: 70, y: 72, amenities: ['Standing desk', 'Step-free access'] },
+    { num: 'G-076', x: 82, y: 72, amenities: ['Window', 'Privacy screen'] },
   ];
+
+  // Teammates (purple "team" colour on the map)
+  const TEAM_ROSTER = [
+    { name: 'Sara Patel',    title: 'Engineering Manager · Platform Eng', initials: 'SP', tone: 'linear-gradient(135deg,#ff9a8b,#ff6a88)' },
+    { name: 'Marcus Kim',    title: 'Senior SWE · Platform Eng',          initials: 'MK', tone: 'linear-gradient(135deg,#6fc7ff,#4d8eff)' },
+    { name: "Jordan O'Hara", title: 'SWE · Platform Eng',                 initials: 'JO', tone: 'linear-gradient(135deg,#c4a8ff,#7d6dff)' },
+    { name: 'Rachel Hughes', title: 'SWE · Platform Eng',                 initials: 'RH', tone: 'linear-gradient(135deg,#7be8b9,#2a9d75)' },
+    { name: 'Devon Ng',      title: 'SWE · Platform Eng',                 initials: 'DN', tone: 'linear-gradient(135deg,#ffd57a,#ff9a3c)' },
+  ];
+
+  // Other colleagues across the bank (grey "taken" colour)
+  const PEOPLE_ROSTER = [
+    { name: 'Hassan Ali',    title: 'Product Manager · Mortgages',      initials: 'HA', tone: 'linear-gradient(135deg,#7be8b9,#2a9d75)' },
+    { name: 'Priya Shah',    title: 'Risk Analyst · Credit Risk',       initials: 'PS', tone: 'linear-gradient(135deg,#c4a8ff,#7d6dff)' },
+    { name: 'Aisha Khan',    title: 'Senior Designer · Digital',        initials: 'AK', tone: 'linear-gradient(135deg,#ff9a8b,#ff6a88)' },
+    { name: 'Tom Reilly',    title: 'Compliance Officer · Risk',        initials: 'TR', tone: 'linear-gradient(135deg,#ffd57a,#ff9a3c)' },
+    { name: 'Nina Brooks',   title: 'Data Scientist · Analytics',       initials: 'NB', tone: 'linear-gradient(135deg,#6fc7ff,#4d8eff)' },
+    { name: 'Liam Walsh',    title: 'Solutions Architect · Cloud',      initials: 'LW', tone: 'linear-gradient(135deg,#b0a8ff,#7d6dff)' },
+    { name: 'Mia Carter',    title: 'Customer Service Lead · Retail',   initials: 'MC', tone: 'linear-gradient(135deg,#ff9a8b,#ff6a88)' },
+    { name: 'Owen Bishop',   title: 'Treasury Analyst · Markets',       initials: 'OB', tone: 'linear-gradient(135deg,#7be8b9,#2a9d75)' },
+    { name: 'Zara Ahmed',    title: 'iOS Engineer · Mobile',            initials: 'ZA', tone: 'linear-gradient(135deg,#c4a8ff,#7d6dff)' },
+    { name: 'Ben Foster',    title: 'Fraud Investigator · Security',    initials: 'BF', tone: 'linear-gradient(135deg,#ffd57a,#ff9a3c)' },
+    { name: 'Ella Davies',   title: 'Brand Strategist · Marketing',     initials: 'ED', tone: 'linear-gradient(135deg,#6fc7ff,#4d8eff)' },
+    { name: 'Raj Singh',     title: 'DevOps Engineer · Platform',       initials: 'RS', tone: 'linear-gradient(135deg,#ff9a8b,#ff6a88)' },
+  ];
+
+  function dateKey(d) {
+    return d.toISOString().slice(0, 10);
+  }
+  function todayKey() { return dateKey(new Date()); }
+
+  // Deterministic per-day random so the same day always shows the same bookings.
+  function seededRand(seed) {
+    let s = 0;
+    for (let i = 0; i < seed.length; i++) s = ((s * 31 + seed.charCodeAt(i)) >>> 0) % 2147483647;
+    if (s === 0) s = 1;
+    return function() {
+      s = (s * 48271) % 2147483647;
+      return s / 2147483647;
+    };
+  }
+
+  // Build the today bookings exactly matching the original prototype.
+  const TODAY = new Date();
+  const TODAY_KEY = todayKey();
+  const DAY_BOOKINGS = {};
+
+  DAY_BOOKINGS[TODAY_KEY] = {
+    'G-014': { ...TEAM_ROSTER[0], _mine: true, person: { name: 'You · Alice Brown', title: 'Senior SWE · Platform Eng · London', initials: 'AB', tone: 'linear-gradient(135deg,#2a9d75,#006a4e)' }, status: 'mine' },
+    'G-003': { person: PEOPLE_ROSTER.find(p => p.name === 'Aisha Khan')  || PEOPLE_ROSTER[2], status: 'taken' },
+    'G-022': { person: PEOPLE_ROSTER.find(p => p.name === 'Priya Shah')  || PEOPLE_ROSTER[1], status: 'taken' },
+    'G-033': { person: PEOPLE_ROSTER.find(p => p.name === 'Hassan Ali')  || PEOPLE_ROSTER[0], status: 'taken' },
+    'G-052': { person: TEAM_ROSTER.find(p => p.name === 'Devon Ng'),     status: 'team' },
+    'G-072': { person: PEOPLE_ROSTER.find(p => p.name === 'Aisha Khan')  || PEOPLE_ROSTER[2], status: 'taken' },
+    'G-012': { person: TEAM_ROSTER.find(p => p.name === 'Marcus Kim'),   status: 'team' },
+    'G-024': { person: TEAM_ROSTER.find(p => p.name === "Jordan O'Hara"),status: 'team' },
+    'G-037': { person: TEAM_ROSTER.find(p => p.name === 'Rachel Hughes'),status: 'team' },
+  };
+  // Normalise "today" entries to include `person` field
+  Object.entries(DAY_BOOKINGS[TODAY_KEY]).forEach(([num, b]) => {
+    if (!b.person) b.person = { name: b.name, title: b.title, initials: b.initials, tone: b.tone };
+  });
+
+  // Build random bookings for the next 13 days.
+  function buildDayBookings(date) {
+    const key = dateKey(date);
+    if (DAY_BOOKINGS[key]) return DAY_BOOKINGS[key];
+    const rand = seededRand(key);
+    const bookings = {};
+    const deskPool = DESKS.slice();
+    const count = 6 + Math.floor(rand() * 6); // 6–11 desks taken
+    for (let i = 0; i < count; i++) {
+      const idx = Math.floor(rand() * deskPool.length);
+      const desk = deskPool.splice(idx, 1)[0];
+      if (!desk) break;
+      // 30% chance the booking is a teammate
+      const isTeam = rand() < 0.3;
+      const roster = isTeam ? TEAM_ROSTER : PEOPLE_ROSTER;
+      const person = roster[Math.floor(rand() * roster.length)];
+      bookings[desk.num] = { person, status: isTeam ? 'team' : 'taken' };
+    }
+    DAY_BOOKINGS[key] = bookings;
+    return bookings;
+  }
+
+  // Currently selected day / slot
+  let selectedDate = new Date();
+  let selectedSlot = 'full';
+  let customStart = '09:00';
+  let customEnd   = '13:00';
+
+  function slotLabel() {
+    switch (selectedSlot) {
+      case 'morning':   return '09:00 – 12:30';
+      case 'afternoon': return '12:30 – 17:00';
+      case 'evening':   return '17:00 – 21:00';
+      case 'custom':    return `${customStart} – ${customEnd}`;
+      default:          return '09:00 – 17:00';
+    }
+  }
+  function slotName() {
+    return { full: 'Full day', morning: 'Morning', afternoon: 'Afternoon', evening: 'Evening', custom: 'Custom' }[selectedSlot];
+  }
+
+  // Quick lookup for a desk on the selected day
+  function deskState(num) {
+    const bookings = DAY_BOOKINGS[dateKey(selectedDate)] || buildDayBookings(selectedDate);
+    const b = bookings[num];
+    if (!b) return { status: 'free' };
+    return b; // { person, status }
+  }
 
   // teammates available to book on behalf of
   const COLLEAGUES = [
@@ -1777,9 +2065,11 @@
   // ============ FLOOR MAP RENDERING ============
   function renderDesks() {
     const map = document.getElementById('floorMap');
+    map.querySelectorAll('.desk').forEach(el => el.remove());
     DESKS.forEach(d => {
+      const state = deskState(d.num);
       const el = document.createElement('div');
-      el.className = 'desk desk--' + d.status;
+      el.className = 'desk desk--' + state.status;
       el.style.left = d.x + '%';
       el.style.top  = d.y + '%';
       el.textContent = d.num.replace('G-', '');
@@ -1793,16 +2083,19 @@
   function openDeskSheet(num) {
     const d = DESKS.find(x => x.num === num);
     if (!d) return;
+    const state = deskState(num);
     const body = document.getElementById('sheetBody');
+    const dayLabel = selectedDate.toLocaleDateString('en-GB', { weekday: 'long', day: 'numeric', month: 'short' });
+    const slot = slotLabel();
     let html = '';
 
-    if (d.status === 'free') {
+    if (state.status === 'free') {
       html = `
         <div class="sheet__row">
           <div class="sheet__desk-num">${num.replace('G-','')}</div>
           <div style="flex:1;">
             <div class="sheet__title">Desk ${num}</div>
-            <div class="sheet__sub">Ground floor · Available now</div>
+            <div class="sheet__sub">Ground floor · ${dayLabel} · ${slot}</div>
           </div>
           <span class="badge-pill" style="background: rgba(123,232,185,0.45); color: #0a4a30; border-color: rgba(42,157,117,0.4);"><span class="dot"></span>Free</span>
         </div>
@@ -1815,13 +2108,13 @@
           <button class="btn btn--solid" style="flex:2;" onclick="bookDesk('${num}')">Book ${num}</button>
         </div>
       `;
-    } else if (d.status === 'mine') {
+    } else if (state.status === 'mine') {
       html = `
         <div class="sheet__row">
           <div class="sheet__desk-num" style="background: linear-gradient(135deg,#ffd57a,#ff9a3c); color:#3a1d05;">${num.replace('G-','')}</div>
           <div style="flex:1;">
             <div class="sheet__title">Desk ${num}</div>
-            <div class="sheet__sub">Your booking · 09:00 – 17:00</div>
+            <div class="sheet__sub">Your booking · ${slot}</div>
           </div>
           <span class="badge-pill" style="background: rgba(255,213,122,0.5); color: #5c3500; border-color: rgba(255,154,60,0.4);">Yours</span>
         </div>
@@ -1834,8 +2127,8 @@
         </div>
       `;
     } else {
-      const o = d.occupant || { name: 'Booked', title: 'Colleague', initials: '··', tone: 'linear-gradient(135deg,#aaa,#888)' };
-      const teammate = d.status === 'team';
+      const o = state.person || { name: 'Booked', title: 'Colleague', initials: '··', tone: 'linear-gradient(135deg,#aaa,#888)' };
+      const teammate = state.status === 'team';
       html = `
         <div class="sheet__row">
           <div class="sheet__avatar" style="background: ${o.tone};">${o.initials}</div>
@@ -1846,7 +2139,7 @@
           <span class="badge-pill" style="background: ${teammate ? 'rgba(176,168,255,0.45)' : 'rgba(150,150,150,0.45)'}; color: ${teammate ? '#2a1a6b' : 'inherit'}; border: 1px solid var(--glass-border);">${teammate ? 'Teammate' : 'Taken'}</span>
         </div>
         <div class="sheet__note">
-          Sitting at <strong>Desk ${num}</strong> · Ground floor today, 09:00 – 17:00.
+          Sitting at <strong>Desk ${num}</strong> · ${dayLabel} · ${slot}.
         </div>
         <div style="font-size: 12px; font-weight: 600; opacity: 0.7; text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 8px;">Desk amenities</div>
         <div class="sheet__amenities">
@@ -1975,9 +2268,8 @@
 
   function showSuccess(num) {
     document.getElementById('successDesk').textContent = num;
-    const d = new Date();
-    const day = d.toLocaleDateString('en-GB', { weekday: 'short', day: 'numeric', month: 'short' });
-    document.getElementById('successMeta').textContent = `Ground floor · ${day} · 09:00–17:00`;
+    const day = selectedDate.toLocaleDateString('en-GB', { weekday: 'short', day: 'numeric', month: 'short' });
+    document.getElementById('successMeta').textContent = `Ground floor · ${day} · ${slotLabel()}`;
     buildConfetti();
     document.getElementById('success').classList.add('open');
   }
@@ -2214,17 +2506,152 @@
     document.getElementById('statusTime').textContent = `${h}:${m}`;
   }
 
+  // Live countdown to booking end (17:00 local).
+  function setRemaining() {
+    const el = document.getElementById('remaining');
+    if (!el) return;
+    const now = new Date();
+    const end = new Date();
+    end.setHours(17, 0, 0, 0);
+    let diffMin = Math.round((end - now) / 60000);
+    if (diffMin <= 0) { el.textContent = 'Booking has ended'; return; }
+    const h = Math.floor(diffMin / 60);
+    const m = diffMin % 60;
+    const hWord = h === 1 ? 'hour' : 'hours';
+    const mWord = m === 1 ? 'minute' : 'minutes';
+    if (h === 0)      el.textContent = `${m} ${mWord} remaining`;
+    else if (m === 0) el.textContent = `${h} ${hWord} remaining`;
+    else              el.textContent = `${h} ${hWord} and ${m} ${mWord} remaining`;
+  }
+
+  // ============ CALENDAR ============
+  function renderCalendar() {
+    const row = document.getElementById('dayRow');
+    row.innerHTML = '';
+    const start = new Date();
+    start.setHours(0, 0, 0, 0);
+    for (let i = 0; i < 14; i++) {
+      const d = new Date(start);
+      d.setDate(start.getDate() + i);
+      const btn = document.createElement('button');
+      btn.className = 'day' + (i === 0 ? ' day--today' : '') + (sameDay(d, selectedDate) ? ' day--active' : '');
+      btn.dataset.iso = dateKey(d);
+      btn.innerHTML = `
+        <div class="day__name">${d.toLocaleDateString('en-GB', { weekday: 'short' })}</div>
+        <div class="day__num">${d.getDate()}</div>
+        <div class="day__mon">${d.toLocaleDateString('en-GB', { month: 'short' })}</div>
+      `;
+      btn.addEventListener('click', () => selectDate(d));
+      row.appendChild(btn);
+    }
+    // make the new day row draggable
+    enableDragScroll(row);
+  }
+
+  function sameDay(a, b) {
+    return a.getFullYear() === b.getFullYear()
+        && a.getMonth() === b.getMonth()
+        && a.getDate() === b.getDate();
+  }
+
+  function selectDate(d) {
+    selectedDate = new Date(d);
+    document.querySelectorAll('.day').forEach(el => {
+      el.classList.toggle('day--active', el.dataset.iso === dateKey(selectedDate));
+    });
+    updateBookSubtitle();
+    renderDesks();
+    closeSheet();
+  }
+
+  function selectSlot(slot, el) {
+    selectedSlot = slot;
+    document.querySelectorAll('.slot').forEach(b => b.classList.remove('slot--active'));
+    if (el) el.classList.add('slot--active');
+    document.getElementById('customTime').classList.toggle('show', slot === 'custom');
+    updateBookSubtitle();
+  }
+
+  function updateCustomLabel() {
+    customStart = document.getElementById('customStart').value || customStart;
+    customEnd   = document.getElementById('customEnd').value   || customEnd;
+    updateBookSubtitle();
+  }
+
+  function updateBookSubtitle() {
+    const sub = document.getElementById('bookSubtitle');
+    if (!sub) return;
+    const day = selectedDate.toLocaleDateString('en-GB', { weekday: 'long', day: 'numeric', month: 'short' });
+    sub.textContent = `${day} · ${slotName()} · ${slotLabel()} · Ground floor`;
+  }
+
   // ============ chip toggles + general bindings ============
+  // Suppress toggle if the click is the end of a drag.
   document.querySelectorAll('.chip').forEach(c => {
-    c.addEventListener('click', () => c.classList.toggle('chip--active'));
+    c.addEventListener('click', () => {
+      if (c.dataset.justDragged === '1') return;
+      c.classList.toggle('chip--active');
+    });
   });
 
+  // ============ drag-to-scroll on horizontal chip rows ============
+  // Lets desktop users pan amenity/filter rows by clicking + dragging,
+  // simulating the mobile swipe.
+  function enableDragScroll(row) {
+    let isDown = false;
+    let startX = 0;
+    let startScroll = 0;
+    let moved = 0;
+
+    row.addEventListener('mousedown', (e) => {
+      // ignore right-click / aux buttons
+      if (e.button !== 0) return;
+      isDown = true;
+      moved = 0;
+      startX = e.pageX;
+      startScroll = row.scrollLeft;
+      row.classList.add('dragging');
+    });
+
+    const stop = () => {
+      if (!isDown) return;
+      isDown = false;
+      row.classList.remove('dragging');
+      // flag every chip so the click that immediately follows a real drag
+      // doesn't toggle anything; cleared on next tick.
+      if (moved > 5) {
+        row.querySelectorAll('.chip').forEach(c => c.dataset.justDragged = '1');
+        setTimeout(() => {
+          row.querySelectorAll('.chip').forEach(c => delete c.dataset.justDragged);
+        }, 0);
+      }
+    };
+
+    window.addEventListener('mouseup', stop);
+    row.addEventListener('mouseleave', stop);
+
+    row.addEventListener('mousemove', (e) => {
+      if (!isDown) return;
+      e.preventDefault();
+      const dx = e.pageX - startX;
+      moved = Math.max(moved, Math.abs(dx));
+      row.scrollLeft = startScroll - dx;
+    });
+  }
+
+  document.querySelectorAll('.filter-row').forEach(enableDragScroll);
+
   // ============ INIT ============
+  renderCalendar();
+  updateBookSubtitle();
   renderDesks();
   initDark();
   initLargerText();
   setSky();
   setStatusTime();
+  setRemaining();
+  // refresh the countdown + status clock every 30s so they stay live
+  setInterval(() => { setStatusTime(); setRemaining(); }, 30000);
 </script>
 </body>
 </html>
