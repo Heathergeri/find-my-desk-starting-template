@@ -151,9 +151,11 @@ export function FloorPlan({ onSelect, filterAmenities, bookingDateProvider, sele
 
   function panBy(dx, dy) { tx += dx; ty += dy; applyTransform(); }
 
-  // Drag pan (only when not pressing a dot)
+  // Drag pan (only when not pressing a dot or a control button)
   stage.addEventListener("pointerdown", (e) => {
-    if (e.target.closest && e.target.closest("[data-desk]")) return;
+    if (!e.target.closest) return;
+    if (e.target.closest("[data-desk]")) return;
+    if (e.target.closest(".floorplan__ctrl, .floor-switcher, button")) return;
     dragging = true; panMoved = false;
     lastX = e.clientX; lastY = e.clientY;
     try { stage.setPointerCapture(e.pointerId); } catch (_) {}
@@ -240,7 +242,7 @@ export function FloorPlan({ onSelect, filterAmenities, bookingDateProvider, sele
       label.setAttribute("text-anchor", "middle");
       label.setAttribute("dominant-baseline", "central");
       label.setAttribute("class", "floorplan__dot-label");
-      label.textContent = desk.number.replace(/^[G1]/, "");
+      label.textContent = occupant ? occupant.initials : desk.number.replace(/^[G1]/, "");
       g.appendChild(label);
 
       g.addEventListener("click", (e) => {
