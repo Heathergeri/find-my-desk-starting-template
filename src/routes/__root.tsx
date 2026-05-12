@@ -6,9 +6,8 @@ import { BottomNav } from "@/components/bottom-nav";
 function RootShell() {
   const pathname = useRouterState({ select: (s) => s.location.pathname });
   const isLogin = pathname.startsWith("/login");
-  const isMobile = pathname === "/mobile" || pathname.startsWith("/mobile/");
 
-  if (isLogin || isMobile) {
+  if (isLogin) {
     return (
       <TooltipProvider delayDuration={150}>
         <Outlet />
