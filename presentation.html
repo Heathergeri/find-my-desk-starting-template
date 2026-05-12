@@ -246,7 +246,7 @@
   /* === Problem slide === */
   .problem-grid {
     display: grid;
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: repeat(3, 1fr);
     gap: 18px;
     margin-top: 28px;
   }
@@ -321,7 +321,7 @@
     transform: translate(-50%, -50%);
   }
   .dot--free { background: #2a9d75; }
-  .dot--booked { background: #d44545; }
+  .dot--booked { background: #9aa3a8; }
   .dot--you { background: var(--accent); animation: pulse 1.6s infinite; }
   .dot--team { background: #4a89dc; }
   @keyframes pulse {
@@ -545,7 +545,7 @@
   <section class="slide slide--title active">
     <div class="topbar">
       <div class="brand">
-        <span class="logo-plate"><img src="public/floorplans/horsey.jpeg" alt=""></span>
+        <span class="logo-plate"><img src="presentation-assets/horsey.jpeg" alt=""></span>
         Spaces@LBG
       </div>
       <div class="counter">01 / 12</div>
@@ -553,7 +553,7 @@
 
     <div class="title-hero">
       <div class="logo-hero">
-        <img src="public/floorplans/horsey.jpeg" alt="Spaces@LBG horse logo">
+        <img src="presentation-assets/horsey.jpeg" alt="Spaces@LBG horse logo">
       </div>
       <div>
         <span class="kicker">Hackathon · Find My Desk</span>
@@ -573,7 +573,7 @@
   <section class="slide">
     <div class="topbar">
       <div class="brand">
-        <span class="logo-plate"><img src="public/floorplans/horsey.jpeg" alt=""></span>
+        <span class="logo-plate"><img src="presentation-assets/horsey.jpeg" alt=""></span>
         Spaces@LBG
       </div>
       <div class="counter">02 / 12</div>
@@ -593,10 +593,6 @@
         <p class="muted">Colleagues don't know who's in, which floor is busy, or whether their team is sitting together until they arrive.</p>
       </div>
       <div class="card">
-        <h3>Ghost bookings</h3>
-        <p class="muted">No-shows hold desks all day. Waitlists don't exist. The space sits empty while someone walks home.</p>
-      </div>
-      <div class="card">
         <h3>Reporting gap</h3>
         <p class="muted">Line managers and leadership can't see utilisation, no-show patterns, or team behaviour without raising a vendor ticket.</p>
       </div>
@@ -607,14 +603,14 @@
   <section class="slide">
     <div class="topbar">
       <div class="brand">
-        <span class="logo-plate"><img src="public/floorplans/horsey.jpeg" alt=""></span>
+        <span class="logo-plate"><img src="presentation-assets/horsey.jpeg" alt=""></span>
         Spaces@LBG
       </div>
       <div class="counter">03 / 12</div>
     </div>
 
     <span class="kicker">Our concept</span>
-    <h2>One product. Two surfaces. Six prompts answered.</h2>
+    <h2>One product. Two surfaces.</h2>
     <p class="muted" style="max-width:72ch;">Spaces@LBG is a workplace-owned desk-booking system, built around the live floorplan and the data we want to keep. A flat, accessible browser app for desk-based planning, plus a glassmorphism mobile app for the morning commute.</p>
 
     <div class="grid-3">
@@ -640,7 +636,7 @@
   <section class="slide">
     <div class="topbar">
       <div class="brand">
-        <span class="logo-plate"><img src="public/floorplans/horsey.jpeg" alt=""></span>
+        <span class="logo-plate"><img src="presentation-assets/horsey.jpeg" alt=""></span>
         Spaces@LBG
       </div>
       <div class="counter">04 / 12</div>
@@ -655,7 +651,7 @@
         <h3>Tap a green dot. That's your desk.</h3>
         <ul>
           <li><strong>Live floorplan</strong> shows every desk on every floor.</li>
-          <li><strong>Green</strong> = available. <strong>Red</strong> = booked. <strong>Blue</strong> = a teammate.</li>
+          <li><strong>Green</strong> = available. <strong>Grey</strong> = booked. <strong>Blue</strong> = a teammate.</li>
           <li>Tap any desk to book — no menus, no codes, no calling FM.</li>
           <li>Hover or tap a booked desk to see <strong>who</strong> is sitting there.</li>
         </ul>
@@ -664,7 +660,7 @@
       <div class="visual-frame">
         <div class="legend">
           <span><i style="background:#2a9d75"></i> Free</span>
-          <span><i style="background:#d44545"></i> Booked</span>
+          <span><i style="background:#9aa3a8"></i> Booked</span>
           <span><i style="background:#4a89dc"></i> Teammate</span>
           <span><i style="background:var(--accent)"></i> You</span>
         </div>
@@ -716,7 +712,7 @@
   <section class="slide">
     <div class="topbar">
       <div class="brand">
-        <span class="logo-plate"><img src="public/floorplans/horsey.jpeg" alt=""></span>
+        <span class="logo-plate"><img src="presentation-assets/horsey.jpeg" alt=""></span>
         Spaces@LBG
       </div>
       <div class="counter">05 / 12</div>
@@ -760,14 +756,14 @@
   <section class="slide">
     <div class="topbar">
       <div class="brand">
-        <span class="logo-plate"><img src="public/floorplans/horsey.jpeg" alt=""></span>
+        <span class="logo-plate"><img src="presentation-assets/horsey.jpeg" alt=""></span>
         Spaces@LBG
       </div>
       <div class="counter">06 / 12</div>
     </div>
 
     <span class="kicker">Prompt 3 — No-shows</span>
-    <h2>10am check-in. After that, the waitlist wins.</h2>
+    <h2>One-hour cut-off. After that, the waitlist wins.</h2>
     <p class="feature-q">If someone books but doesn't show, who gets the desk and when?</p>
 
     <div class="grid-2">
@@ -775,7 +771,7 @@
         <h3>A self-healing schedule.</h3>
         <ul>
           <li><strong>Floor full?</strong> Join the waitlist for that floor in one tap.</li>
-          <li><strong>10:00 check-in cut-off</strong> — late or no-show, the desk is released automatically.</li>
+          <li><strong>One-hour check-in window</strong> — if you haven't checked in within an hour of your booking start, the desk is put back into circulation automatically.</li>
           <li>If someone <strong>cancels</strong>, the waitlist fires immediately.</li>
           <li>Alerts honour <strong>colleague preferences</strong>: push, email, or both.</li>
         </ul>
@@ -784,9 +780,9 @@
       <div class="visual-frame">
         <h3 style="color:var(--brand-deep);">Waitlist on Floor 2 · this morning</h3>
         <div class="waitlist-flow">
-          <div class="flow-step"><span class="step-num">1</span><div><strong>Booking made</strong> · Desk G-12 booked by J. Patel</div><span class="time">07:42</span></div>
+          <div class="flow-step"><span class="step-num">1</span><div><strong>Booking made</strong> · J. Patel · Desk G-12 from 09:00</div><span class="time">07:42</span></div>
           <div class="flow-step"><span class="step-num">2</span><div><strong>You join the waitlist</strong> · Floor 2, any desk</div><span class="time">08:55</span></div>
-          <div class="flow-step" style="border-color: rgba(212,69,69,0.35); background: #fff5f5;"><span class="step-num" style="background:#d44545">!</span><div><strong>No-show detected</strong> · G-12 released after 10:00 cut-off</div><span class="time">10:00</span></div>
+          <div class="flow-step" style="border-color: rgba(212,69,69,0.35); background: #fff5f5;"><span class="step-num" style="background:#d44545">!</span><div><strong>No check-in within 1 hour</strong> · G-12 released back into circulation</div><span class="time">10:00</span></div>
           <div class="flow-step" style="border-color: rgba(42,157,117,0.4); background: #f3fbf7;"><span class="step-num" style="background:#2a9d75">✓</span><div><strong>Push + email</strong> · "G-12 is yours if you want it"</div><span class="time">10:00</span></div>
         </div>
       </div>
@@ -797,7 +793,7 @@
   <section class="slide">
     <div class="topbar">
       <div class="brand">
-        <span class="logo-plate"><img src="public/floorplans/horsey.jpeg" alt=""></span>
+        <span class="logo-plate"><img src="presentation-assets/horsey.jpeg" alt=""></span>
         Spaces@LBG
       </div>
       <div class="counter">07 / 12</div>
@@ -833,7 +829,7 @@
   <section class="slide">
     <div class="topbar">
       <div class="brand">
-        <span class="logo-plate"><img src="public/floorplans/horsey.jpeg" alt=""></span>
+        <span class="logo-plate"><img src="presentation-assets/horsey.jpeg" alt=""></span>
         Spaces@LBG
       </div>
       <div class="counter">08 / 12</div>
@@ -880,7 +876,7 @@
   <section class="slide">
     <div class="topbar">
       <div class="brand">
-        <span class="logo-plate"><img src="public/floorplans/horsey.jpeg" alt=""></span>
+        <span class="logo-plate"><img src="presentation-assets/horsey.jpeg" alt=""></span>
         Spaces@LBG
       </div>
       <div class="counter">09 / 12</div>
@@ -929,7 +925,7 @@
   <section class="slide demo-cue">
     <div class="topbar">
       <div class="brand">
-        <span class="logo-plate"><img src="public/floorplans/horsey.jpeg" alt=""></span>
+        <span class="logo-plate"><img src="presentation-assets/horsey.jpeg" alt=""></span>
         Spaces@LBG
       </div>
       <div class="counter">10 / 12</div>
@@ -951,7 +947,7 @@
   <section class="slide demo-cue">
     <div class="topbar">
       <div class="brand">
-        <span class="logo-plate"><img src="public/floorplans/horsey.jpeg" alt=""></span>
+        <span class="logo-plate"><img src="presentation-assets/horsey.jpeg" alt=""></span>
         Spaces@LBG
       </div>
       <div class="counter">11 / 12</div>
@@ -973,7 +969,7 @@
   <section class="slide">
     <div class="topbar">
       <div class="brand">
-        <span class="logo-plate"><img src="public/floorplans/horsey.jpeg" alt=""></span>
+        <span class="logo-plate"><img src="presentation-assets/horsey.jpeg" alt=""></span>
         Spaces@LBG
       </div>
       <div class="counter">12 / 12</div>

@@ -17,21 +17,19 @@ The current system is clunky and leans heavily on a vendor API that doesn't give
 
 ---
 
-## Slide 2 — The Problem  *(~45s)*
+## Slide 2 — The Problem  *(~35s)*
 
 Quick reality check on where we are today.
 
-The system we have now is a vendor product, and that gives us four problems.
+The system we have now is a vendor product, and that gives us three problems.
 
 **One — we're locked in.** The API is a black box. We can't extend it, can't reshape it, can't get the data we want out of it.
 
 **Two — colleagues are flying blind on the day.** You don't know who's in, which floor is busy, or whether your team is even there until you walk through the door.
 
-**Three — ghost bookings.** People book a desk, don't show up, and that desk sits empty all day while someone else walks home.
+**Three — leadership has no real visibility.** Reporting is whatever the vendor decides to share with us, when they decide to share it.
 
-**Four — leadership has no real visibility.** Reporting is whatever the vendor decides to share with us, when they decide to share it.
-
-Those are the four problems we set out to fix.
+Those are the three problems we set out to fix.
 
 [Advance →]
 
@@ -39,7 +37,7 @@ Those are the four problems we set out to fix.
 
 ## Slide 3 — Our Concept  *(~30s)*
 
-Our concept is simple. **One product. Two surfaces. Six prompts answered.**
+Our concept is simple. **One product. Two surfaces.**
 
 A **flat browser app** for desktop-based planning — your week, your team, your reports.
 
@@ -55,7 +53,7 @@ And critically — **we own the data and the rules.** Licensing comes from Workd
 
 **Prompt one — finding and booking.** How does someone actually know what's available before they decide to come in?
 
-You see the whole floorplan. Every desk on every floor. **Green dot** means free. **Red** means booked. **Blue** means a teammate is sitting there. And **yellow** is you.
+You see the whole floorplan. Every desk on every floor. **Green dot** means free. **Grey** means booked. **Blue** means a teammate is sitting there. And **yellow** is you.
 
 Tap any green dot — that's your desk. No menus, no codes, no calling facilities.
 
@@ -85,7 +83,7 @@ So the next person doesn't walk into someone else's coffee cup.
 
 If the floor's full when you try to book, you can **join the waitlist** for that floor in one tap.
 
-**Check-in cut-off is 10am.** After that, if you haven't checked in, the desk is **released automatically** and goes back into circulation. Same thing if you cancel — the waitlist fires immediately.
+**Check-in cut-off is one hour after your booking starts.** So if you booked from nine, you've got until ten to check in. If you haven't, the desk is **put back into circulation automatically.** Same thing if you cancel — the waitlist fires immediately.
 
 And whoever's at the top of the waitlist gets a **push notification, an email, or both** — whichever they've chosen in their alert preferences.
 
